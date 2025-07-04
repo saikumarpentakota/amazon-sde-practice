@@ -1,0 +1,27 @@
+package DAY14;
+
+
+
+import java.util.Stack;
+
+public class TASK08 {
+    public static void main(String[] args){
+        Stack<Integer> stack = new Stack<>();
+        stack.push(10);
+        stack.push(20);
+        stack.push(30);
+        Integer searchInt = 30;
+        System.out.println("stack: " + stack);
+        int position = stack.search(searchInt);
+        if (position != -1){
+            System.out.println("found at position  " + position);}
+            else {
+                System.out.println("not found in the stack");
+            }
+
+        int poppedElement = stack.pop();
+        System.out.println("popped element: " + poppedElement);
+        System.out.println("stack after pop:" + stack);
+
+    }
+}
