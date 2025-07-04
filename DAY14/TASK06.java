@@ -2,7 +2,7 @@ package DAY14;
 
 import java.util.Stack;
 
-public class TASK07 {
+public class TASK06 {
     public static void main(String[] args){
         Stack<Integer> stack = new Stack<>();
         stack.push(10);
@@ -22,6 +22,12 @@ public class TASK07 {
         int poppedElement = stack.pop();
         System.out.println("popped element: " + poppedElement);
         System.out.println("stack after pop:" + stack);
+
+        if (stack.isEmpty()){
+            System.out.println("stack is empty");}
+        else {
+            System.out.println("stack is not empty");
+        }
 
     }
 }
