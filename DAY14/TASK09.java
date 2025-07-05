@@ -22,7 +22,7 @@ public class TASK09 {
         }
         else {
             rear ++;
-            queue[rear]= data;F
+            queue[rear]= data;
             System.out.println("enqueued; " + data);
         }
     }
