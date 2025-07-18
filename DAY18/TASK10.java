@@ -1,6 +1,7 @@
 package DAY18;
 
 class Node {
+    public boolean key;
     int data;
     Node left, right;
 
