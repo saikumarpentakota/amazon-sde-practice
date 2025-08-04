@@ -1,5 +1,9 @@
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TASK001 {
-    public static void main(String[] args) {
-        System.out.println("HEY GOOD MORNING");
+    @Test
+    void testadd(){
+        assertEquals(10, 5 + 5);
     }
 }
