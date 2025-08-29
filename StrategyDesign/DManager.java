@@ -2,13 +2,14 @@ package StrategyDesign;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class DManager {
 
-    private static DManager instance;
+    private static  volatile DManager instance;
 
 
-    private List<String> itemList;
+    private final List<String> itemList;
 
 
     private DManager() {
@@ -26,11 +27,13 @@ public class DManager {
 
 
     public static DManager createInstance() {
-        if (instance != null) {
-            throw new IllegalStateException("Instance already exists!");
+        synchronized (DManager.class) {
+            if (instance != null) {
+                throw new IllegalStateException("Instance already exists!");
+            }
+            instance = new DManager();
+            return instance;
         }
-        instance = new DManager();
-        return instance;
     }
 
 
@@ -50,35 +53,39 @@ public class DManager {
 
 
     public synchronized List<String> retrieveList() {
-        return new ArrayList<>(itemList); // Return a copy to maintain encapsulation
+        return new ArrayList<>(itemList);
     }
+
+
 }
 
 
 class Singleton {
     public static void main(String[] args) {
-
+        Scanner scanner = new Scanner(System.in);
         DManager manager = DManager.getInstance();
 
 
-        manager.addItem("Item 1");
-        manager.addItem("Item 2");
-        manager.addItem("Item 3");
+        System.out.println("enter items(type 'Done' to finish):");
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equals("Done")) {
+                break;
+            }
+            manager.addItem(input);
+        }
 
-        // Retrieve and print list
-        System.out.println("Current list: " + manager.retrieveList());
+        System.out.println("item to be removed: ");
+        String itemToRemove = scanner.nextLine();
+        manager.removeItem(itemToRemove);
 
+        for (String item : manager.retrieveList()) {
+            System.out.println(item);
 
-        manager.removeItem("Item 2");
-
+        }
+        scanner.close();
 
         System.out.println("Updated list: " + manager.retrieveList());
 
-
-        try {
-            DManager.createInstance();
-        } catch (IllegalStateException e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
     }
 }
