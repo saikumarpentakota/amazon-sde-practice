@@ -1,0 +1,3 @@
+[submodule "sde-project"]
+	path = sde-project
+	url = https://github.com/saikumarpentakota/amazon-sde-practice.git
