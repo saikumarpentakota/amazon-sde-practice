@@ -1,0 +1,37 @@
+
+
+@startuml
+class Employee {
+    - EmployeeID : int <<PK>>
+    - FirstName : string
+    - LastName : string
+    - DateOfBirth : date
+    - Email : string
+    - PhoneNumber : string
+    - Address : string
+    - DepartmentID : int <<FK>>
+    - Position : string
+    - Salary : float
+}
+
+class Department {
+    - DepartmentID : int <<PK>>
+    - DepartmentName : string
+    - ManagerID : int <<FK>> (EmployeeID)
+}
+
+class Payroll {
+    - PayrollID : int <<PK>>
+    - EmployeeID : int <<FK>>
+    - PayDate : date
+    - BasicSalary : float
+    - Allowances : float
+    - Deductions : float
+    - NetPay : float
+}
+
+' Relationships
+Employee "many" --> "1" Department : belongs_to
+Department "1" --> "1" Employee : managed_by
+Employee "1" --> "many" Payroll : has
+@enduml
