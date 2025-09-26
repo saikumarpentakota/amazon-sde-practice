@@ -1,0 +1,21 @@
+# Compiled class files
+*.class
+target/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database credentials (if any)
+*.properties
+
+# Logs
+*.log
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
