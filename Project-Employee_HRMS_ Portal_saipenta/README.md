@@ -8,7 +8,7 @@
 - **Day 5**: Attendance feature with APIs
 - **Day 6**: DynamoDB integration for leave requests
 - **Day 7**: Queue data structure for batch processing
-- **Day 8**: BDD tests with Cucumber
+- **Day 8**: BDD tests with JUNIT
 - **Day 9**: Jenkins automation for payroll jobs
 - **Day 10**: HR portal demo deployment
 
