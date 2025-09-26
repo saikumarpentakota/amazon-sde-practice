@@ -1,0 +1,167 @@
+@startuml HRMS Class Diagram
+!theme plain
+title HRMS System - Class Diagram
+
+package "Entity Layer" {
+    class Employee {
+        -String id
+        -String name
+        -String email
+        -String departmentId
+        -BigDecimal salary
+        -LocalDate joinDate
+        +getId() : String
+        +getName() : String
+        +getEmail() : String
+        +getSalary() : BigDecimal
+    }
+
+    class Department {
+        -String id
+        -String name
+        -BigDecimal allowanceRate
+        -BigDecimal deductionRate
+        +getId() : String
+        +getName() : String
+        +getAllowanceRate() : BigDecimal
+        +getDeductionRate() : BigDecimal
+    }
+
+    class Payroll {
+        -String id
+        -String employeeId
+        -String month
+        -BigDecimal basicSalary
+        -BigDecimal allowances
+        -BigDecimal deductions
+        -BigDecimal overtime
+        -BigDecimal total
+        +getId() : String
+        +getEmployeeId() : String
+        +getTotal() : BigDecimal
+    }
+
+    class Attendance {
+        -Long id
+        -Long employeeId
+        -LocalDate date
+        -LocalTime checkIn
+        -LocalTime checkOut
+        -Double hoursWorked
+        +getId() : Long
+        +getEmployeeId() : Long
+        +getHoursWorked() : Double
+    }
+
+    class LeaveRequest {
+        -String id
+        -Long employeeId
+        -String leaveType
+        -LocalDate startDate
+        -LocalDate endDate
+        -String reason
+        -String status
+        +getId() : String
+        +getEmployeeId() : Long
+        +getStatus() : String
+    }
+}
+
+package "Repository Layer" {
+    class EmployeeDynamoRepository {
+        -DynamoDbClient dynamoDbClient
+        +save(Employee) : Employee
+        +findById(String) : Employee
+        +findAll() : List<Employee>
+        +deleteById(String) : void
+    }
+
+    class PayrollDynamoRepository {
+        -DynamoDbClient dynamoDbClient
+        +save(Payroll) : Payroll
+        +findByEmployeeId(String) : List<Payroll>
+    }
+
+    class AttendanceRepository {
+        +save(Attendance) : Attendance
+        +findByEmployeeId(Long) : List<Attendance>
+    }
+
+    class LeaveRequestRepository {
+        -DynamoDbClient dynamoDbClient
+        +save(LeaveRequest) : LeaveRequest
+        +findById(String) : LeaveRequest
+        +update(LeaveRequest) : LeaveRequest
+        +deleteById(String) : void
+    }
+}
+
+package "Service Layer" {
+    class PayrollService {
+        -EmployeeDynamoRepository employeeRepository
+        -PayrollDynamoRepository payrollRepository
+        +calculatePayroll(String, String, BigDecimal) : Payroll
+    }
+
+    class EnhancedPayrollService {
+        -EmployeeDynamoRepository employeeRepository
+        -Map<String, Department> departments
+        +generatePayroll(String, String, BigDecimal) : Payroll
+    }
+
+    class PayrollBatchService {
+        -Queue<String> payrollQueue
+        -EnhancedPayrollService payrollService
+        +addToQueue(String) : void
+        +processBatch(String) : List<Payroll>
+        +getQueueSize() : int
+    }
+}
+
+package "Controller Layer" {
+    class EmployeeController {
+        -EmployeeDynamoRepository employeeRepository
+        +doGet() : void
+        +doPost() : void
+        +doPut() : void
+        +doDelete() : void
+    }
+
+    class PayrollController {
+        -PayrollService payrollService
+        +doPost() : void
+        +doGet() : void
+    }
+
+    class AttendanceController {
+        -AttendanceRepository attendanceRepository
+        +doPost() : void
+        +doGet() : void
+    }
+
+    class LeaveController {
+        -LeaveRequestRepository leaveRepository
+        +doPost() : void
+        +doGet() : void
+        +doPut() : void
+        +doDelete() : void
+    }
+}
+
+' Relationships
+Employee ||--o{ Payroll : "has many"
+Employee ||--o{ Attendance : "has many"
+Employee ||--o{ LeaveRequest : "has many"
+Department ||--o{ Employee : "contains"
+
+EmployeeController --> EmployeeDynamoRepository
+PayrollController --> PayrollService
+AttendanceController --> AttendanceRepository
+LeaveController --> LeaveRequestRepository
+
+PayrollService --> EmployeeDynamoRepository
+PayrollService --> PayrollDynamoRepository
+EnhancedPayrollService --> EmployeeDynamoRepository
+PayrollBatchService --> EnhancedPayrollService
+
+@enduml

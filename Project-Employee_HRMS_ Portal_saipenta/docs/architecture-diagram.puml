@@ -1,0 +1,111 @@
+@startuml HRMS Architecture
+!theme plain
+title HRMS System Architecture
+
+!define RECTANGLE class
+
+package "Presentation Layer" {
+    [Web Browser] as browser
+    [REST API Client] as client
+    [Interactive Console] as console
+}
+
+package "API Gateway" {
+    [Tomcat Server] as tomcat
+    [Servlet Container] as servlet
+}
+
+package "Controller Layer" {
+    [EmployeeController] as empCtrl
+    [PayrollController] as payCtrl
+    [AttendanceController] as attCtrl
+    [LeaveController] as leaveCtrl
+    [BatchController] as batchCtrl
+}
+
+package "Service Layer" {
+    [PayrollService] as payService
+    [EnhancedPayrollService] as enhPayService
+    [PayrollBatchService] as batchService
+    [MonthlyPayrollService] as monthlyService
+}
+
+package "Repository Layer" {
+    [EmployeeDynamoRepository] as empDynamoRepo
+    [PayrollDynamoRepository] as payDynamoRepo
+    [AttendanceRepository] as attRepo
+    [LeaveRequestRepository] as leaveRepo
+    [EmployeeRepository] as empRepo
+    [PayrollRepository] as payRepo
+}
+
+package "Data Layer" {
+    database "MySQL Database" {
+        [employees] as empTable
+        [payroll] as payTable
+        [attendance] as attTable
+        [departments] as deptTable
+    }
+    
+    cloud "DynamoDB Local" {
+        [Employees] as empDynamo
+        [Payroll] as payDynamo
+        [LeaveRequests] as leaveDynamo
+    }
+}
+
+package "Queue System" {
+    [ConcurrentLinkedQueue] as queue
+}
+
+package "Testing Layer" {
+    [JUnit Tests] as junit
+    [Test Runner] as testRunner
+}
+
+package "CI/CD Pipeline" {
+    [Jenkins] as jenkins
+    [Maven Build] as maven
+    [WAR Deployment] as war
+}
+
+' Connections
+browser --> tomcat : HTTP/HTTPS
+client --> tomcat : REST API
+console --> empCtrl : Direct Call
+
+tomcat --> servlet
+servlet --> empCtrl
+servlet --> payCtrl
+servlet --> attCtrl
+servlet --> leaveCtrl
+servlet --> batchCtrl
+
+empCtrl --> empDynamoRepo
+payCtrl --> payService
+payCtrl --> monthlyService
+attCtrl --> attRepo
+leaveCtrl --> leaveRepo
+batchCtrl --> batchService
+
+payService --> empDynamoRepo
+payService --> payDynamoRepo
+enhPayService --> empDynamoRepo
+batchService --> enhPayService
+batchService --> queue
+monthlyService --> payDynamoRepo
+monthlyService --> empDynamoRepo
+
+empDynamoRepo --> empDynamo
+payDynamoRepo --> payDynamo
+leaveRepo --> leaveDynamo
+empRepo --> empTable
+payRepo --> payTable
+attRepo --> attTable
+
+junit --> testRunner
+jenkins --> maven
+maven --> war
+war --> tomcat
+
+@enduml

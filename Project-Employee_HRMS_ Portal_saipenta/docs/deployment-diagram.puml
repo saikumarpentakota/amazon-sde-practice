@@ -1,0 +1,65 @@
+@startuml HRMS Deployment
+title HRMS - Deployment Architecture
+
+node "Development" {
+    [IntelliJ IDEA] as ide
+    [Maven] as maven
+    [JUnit Tests] as tests
+}
+
+node "CI/CD" {
+    [Jenkins] as jenkins
+    [Git Repository] as git
+}
+
+node "Application Server" {
+    [Apache Tomcat] as tomcat
+    [HRMS WAR] as war
+    [REST Controllers] as controllers
+    [Business Services] as services
+}
+
+node "Databases" {
+    database "MySQL" as mysql
+    cloud "DynamoDB" as dynamo
+}
+
+node "Clients" {
+    [Web Browser] as browser
+    [API Client] as client
+}
+
+' Connections
+ide --> maven
+maven --> tests
+git --> jenkins
+jenkins --> tomcat
+
+browser --> tomcat : HTTP:8080
+client --> tomcat : REST API
+
+tomcat --> war
+war --> controllers
+controllers --> services
+services --> mysql : JDBC:3306
+services --> dynamo : AWS SDK:8000
+
+note right of tomcat
+  Production Server
+  Port: 8080
+  JVM: OpenJDK 17+
+end note
+
+note right of mysql
+  Relational Data
+  Port: 3306
+  Tables: employees, payroll, attendance
+end note
+
+note right of dynamo
+  NoSQL Storage
+  Port: 8000
+  Tables: Employees, Payroll, LeaveRequests
+end note
+
+@enduml
