@@ -23,22 +23,22 @@ public class EnhancedPayrollService {
         Department it = new Department();
         it.setId("1");
         it.setName("IT");
-        it.setAllowanceRate(new BigDecimal("0.20")); // 20% allowance
-        it.setDeductionRate(new BigDecimal("0.10")); // 10% deduction
+        it.setAllowanceRate(new BigDecimal("0.20")); 
+        it.setDeductionRate(new BigDecimal("0.10")); 
         departments.put("1", it);
         
         Department hr = new Department();
         hr.setId("2");
         hr.setName("HR");
-        hr.setAllowanceRate(new BigDecimal("0.15")); // 15% allowance
-        hr.setDeductionRate(new BigDecimal("0.08")); // 8% deduction
+        hr.setAllowanceRate(new BigDecimal("0.15")); 
+        hr.setDeductionRate(new BigDecimal("0.08")); 
         departments.put("2", hr);
         
         Department finance = new Department();
         finance.setId("3");
         finance.setName("Finance");
-        finance.setAllowanceRate(new BigDecimal("0.18")); // 18% allowance
-        finance.setDeductionRate(new BigDecimal("0.12")); // 12% deduction
+        finance.setAllowanceRate(new BigDecimal("0.18"));
+        finance.setDeductionRate(new BigDecimal("0.12"));
         departments.put("3", finance);
     }
     
@@ -49,7 +49,7 @@ public class EnhancedPayrollService {
         Department dept = departments.get(employee.getDepartmentId());
         if (dept == null) return null;
         
-        // Salary computation logic
+        
         BigDecimal basicSalary = employee.getSalary();
         BigDecimal allowances = basicSalary.multiply(dept.getAllowanceRate());
         BigDecimal deductions = basicSalary.multiply(dept.getDeductionRate());
