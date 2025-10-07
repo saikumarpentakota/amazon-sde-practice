@@ -35,13 +35,13 @@ public class AttendanceController extends HttpServlet {
         resp.setContentType("application/json");
         
         try {
-            // Handle form data from frontend
+            
             String employeeIdStr = req.getParameter("employeeId");
             String checkInStr = req.getParameter("checkIn");
             String checkOutStr = req.getParameter("checkOut");
             
             if (employeeIdStr == null || checkInStr == null || checkOutStr == null) {
-                // Try JSON if form data not available
+                
                 Attendance attendance = gson.fromJson(req.getReader(), Attendance.class);
                 if (attendance.getCheckIn() != null && attendance.getCheckOut() != null) {
                     Duration duration = Duration.between(attendance.getCheckIn(), attendance.getCheckOut());
@@ -50,7 +50,7 @@ public class AttendanceController extends HttpServlet {
                 Attendance saved = attendanceRepository.save(attendance);
                 resp.getWriter().write(gson.toJson(saved));
             } else {
-                // Handle form data
+                
                 Attendance attendance = new Attendance();
                 attendance.setEmployeeId(Long.parseLong(employeeIdStr));
                 attendance.setCheckIn(LocalTime.parse(checkInStr));
