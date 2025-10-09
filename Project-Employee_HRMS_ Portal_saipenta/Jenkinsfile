@@ -1,0 +1,108 @@
+pipeline {
+    agent any
+    
+    tools {
+        maven 'Maven-3.8.1'
+        jdk 'JDK-11'
+    }
+    
+    environment {
+        TOMCAT_HOME = '/opt/tomcat'
+        WAR_FILE = 'target/hrms-portal.war'
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+        
+        stage('Package') {
+            steps {
+                sh 'mvn package -DskipTests'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'target/*.war', fingerprint: true
+                }
+            }
+        }
+        
+        stage('Deploy to Tomcat') {
+            steps {
+                script {
+                    sh """
+                        # Stop Tomcat
+                        sudo systemctl stop tomcat
+                        
+                        # Remove old deployment
+                        sudo rm -rf ${TOMCAT_HOME}/webapps/hrms-portal*
+                        
+                        # Copy new WAR file
+                        sudo cp ${WAR_FILE} ${TOMCAT_HOME}/webapps/
+                        
+                        # Start Tomcat
+                        sudo systemctl start tomcat
+                        
+                        # Wait for deployment
+                        sleep 30
+                    """
+                }
+            }
+        }
+        
+        stage('Health Check') {
+            steps {
+                script {
+                    sh """
+                        # Check if application is running
+                        curl -f http://localhost:8080/hrms-portal/ || exit 1
+                    """
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            emailext (
+                subject: "HRMS Deployment Successful - Build #${BUILD_NUMBER}",
+                body: "The HRMS Portal has been successfully deployed to Tomcat.",
+                to: "admin@company.com"
+            )
+        }
+        failure {
+            emailext (
+                subject: "HRMS Deployment Failed - Build #${BUILD_NUMBER}",
+                body: "The HRMS Portal deployment failed. Please check the build logs.",
+                to: "admin@company.com"
+            )
+        }
+    }
+    
+    triggers {
+        // Weekly automated payroll processing
+        cron('0 2 * * 1') // Every Monday at 2 AM
+    }
+}

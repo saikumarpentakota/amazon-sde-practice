@@ -1,0 +1,407 @@
+{
+  "info": {
+    "name": "HRMS Portal API",
+    "description": "Complete API collection for HRMS Portal",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Employee Management",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Get Employee by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/employees/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "empCode", "value": "EMP009"},
+                {"key": "firstName", "value": "John"},
+                {"key": "lastName", "value": "Smith"},
+                {"key": "email", "value": "john.smith@company.com"},
+                {"key": "phone", "value": "555-0109"},
+                {"key": "hireDate", "value": "2024-01-15"},
+                {"key": "deptId", "value": "2"},
+                {"key": "position", "value": "Software Developer"},
+                {"key": "salary", "value": "75000.00"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "empCode", "value": "EMP009"},
+                {"key": "firstName", "value": "John"},
+                {"key": "lastName", "value": "Smith"},
+                {"key": "email", "value": "john.smith@company.com"},
+                {"key": "phone", "value": "555-0109"},
+                {"key": "hireDate", "value": "2024-01-15"},
+                {"key": "deptId", "value": "2"},
+                {"key": "position", "value": "Senior Software Developer"},
+                {"key": "salary", "value": "85000.00"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/employees/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/employees/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payroll Management",
+      "item": [
+        {
+          "name": "Process Individual Payroll",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "empId", "value": "1"},
+                {"key": "payPeriod", "value": "2024-01"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/payroll/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payroll", "process"]
+            }
+          }
+        },
+        {
+          "name": "Get Salary Slip",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/payroll/slip?empId=1&payPeriod=2024-01",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payroll", "slip"],
+              "query": [
+                {"key": "empId", "value": "1"},
+                {"key": "payPeriod", "value": "2024-01"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Payroll by Period",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/payroll?payPeriod=2024-01",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "payroll"],
+              "query": [
+                {"key": "payPeriod", "value": "2024-01"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance Management",
+      "item": [
+        {
+          "name": "Mark Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "empId", "value": "1"},
+                {"key": "date", "value": "2024-01-15"},
+                {"key": "status", "value": "PRESENT"},
+                {"key": "checkInTime", "value": "09:00:00"},
+                {"key": "checkOutTime", "value": "17:30:00"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/attendance",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "attendance"]
+            }
+          }
+        },
+        {
+          "name": "Get Today's Attendance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/attendance/today",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "attendance", "today"]
+            }
+          }
+        },
+        {
+          "name": "Get Employee Attendance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/attendance?empId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "attendance"],
+              "query": [
+                {"key": "empId", "value": "1"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Monthly Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/attendance/report?empId=1&month=2024-01",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "attendance", "report"],
+              "query": [
+                {"key": "empId", "value": "1"},
+                {"key": "month", "value": "2024-01"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leave Management",
+      "item": [
+        {
+          "name": "Submit Leave Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "empId", "value": "1"},
+                {"key": "leaveDate", "value": "2024-02-15"},
+                {"key": "reason", "value": "Personal leave"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/leave",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "leave"]
+            }
+          }
+        },
+        {
+          "name": "Get Leave History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/leave?empId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "leave"],
+              "query": [
+                {"key": "empId", "value": "1"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve Leave",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "requestId", "value": "LR1234567890"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/leave/approve",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "leave", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Reject Leave",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "requestId", "value": "LR1234567890"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/leave/reject",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "leave", "reject"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Batch Processing",
+      "item": [
+        {
+          "name": "Add to Payroll Queue",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "empId", "value": "1"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/batch/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "batch", "add"]
+            }
+          }
+        },
+        {
+          "name": "Process Batch Payroll",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {"key": "payPeriod", "value": "2024-01"}
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/batch/process",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "batch", "process"]
+            }
+          }
+        },
+        {
+          "name": "Get Queue Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/batch/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "batch", "status"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/hrms-portal"
+    }
+  ]
+}

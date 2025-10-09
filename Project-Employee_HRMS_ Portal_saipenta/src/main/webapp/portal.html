@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Portal - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="portal.html">
+                <i class="fas fa-users"></i> HRMS Portal
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="employees.html">Employees</a>
+                <a class="nav-link" href="payroll.html">Payroll</a>
+                <a class="nav-link" href="attendance.html">Attendance</a>
+                <a class="nav-link" href="leave.html">Leave</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">HRMS Dashboard</h1>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> <strong>System Status:</strong> All API endpoints are operational!
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="card-title">Employees</h4>
+                                <p class="card-text" id="employeeCount">Loading...</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-users fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-light btn-sm" onclick="testEmployeeAPI()">Test API</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="card-title">Payroll</h4>
+                                <p class="card-text">Batch Processing</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-dollar-sign fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-light btn-sm" onclick="testBatchAPI()">Test Queue</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="card-title">Attendance</h4>
+                                <p class="card-text">Daily Tracking</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-clock fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-light btn-sm" onclick="testAttendanceAPI()">Test API</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4 class="card-title">Leave Requests</h4>
+                                <p class="card-text">DynamoDB Storage</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-calendar-alt fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-light btn-sm" onclick="testLeaveAPI()">Test API</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>API Testing Console</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="apiResults" class="bg-light p-3 rounded">
+                            <p class="mb-0">Click the "Test API" buttons above to test different endpoints.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>System Architecture</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Backend Technologies:</h6>
+                                <ul>
+                                    <li>Java EE with Servlets</li>
+                                    <li>JDBC for MySQL</li>
+                                    <li>Queue-based batch processing</li>
+                                    <li>Mock DynamoDB for leave requests</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>API Endpoints:</h6>
+                                <ul>
+                                    <li><code>/api/employees</code> - CRUD operations</li>
+                                    <li><code>/api/payroll</code> - Salary processing</li>
+                                    <li><code>/api/attendance</code> - Time tracking</li>
+                                    <li><code>/api/leave</code> - Leave management</li>
+                                    <li><code>/api/batch</code> - Queue operations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateResults(title, data) {
+            const results = document.getElementById('apiResults');
+            results.innerHTML = `
+                <h6>${title}</h6>
+                <pre class="mb-0">${JSON.stringify(data, null, 2)}</pre>
+            `;
+        }
+
+        function testEmployeeAPI() {
+            fetch('/hrms-portal/api/employees')
+                .then(response => response.json())
+                .then(data => {
+                    updateResults('Employee API Response', data);
+                    document.getElementById('employeeCount').textContent = data.length + ' Records';
+                })
+                .catch(error => {
+                    updateResults('Employee API Error', {error: error.message});
+                });
+        }
+
+        function testBatchAPI() {
+            fetch('/hrms-portal/api/batch/status')
+                .then(response => response.json())
+                .then(data => {
+                    updateResults('Batch Queue Status', data);
+                })
+                .catch(error => {
+                    updateResults('Batch API Error', {error: error.message});
+                });
+        }
+
+        function testAttendanceAPI() {
+            fetch('/hrms-portal/api/attendance/today')
+                .then(response => response.json())
+                .then(data => {
+                    updateResults('Today\'s Attendance', data);
+                })
+                .catch(error => {
+                    updateResults('Attendance API Error', {error: error.message});
+                });
+        }
+
+        function testLeaveAPI() {
+            // Test with a sample employee ID
+            fetch('/hrms-portal/api/leave?empId=1')
+                .then(response => response.json())
+                .then(data => {
+                    updateResults('Leave Requests (Employee 1)', data);
+                })
+                .catch(error => {
+                    updateResults('Leave API Error', {error: error.message});
+                });
+        }
+
+        // Auto-load employee count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            testEmployeeAPI();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+@startuml HRMS Class Diagram
+
+package "Model" {
+    class Employee {
+        -int empId
+        -String empCode
+        -String firstName
+        -String lastName
+        -String email
+        -String phone
+        -Date hireDate
+        -int deptId
+        -String position
+        -BigDecimal salary
+        -String status
+        +getters/setters()
+    }
+    
+    class Department {
+        -int deptId
+        -String deptName
+        -String deptHead
+        -Date createdAt
+        +getters/setters()
+    }
+    
+    class Payroll {
+        -int payrollId
+        -int empId
+        -String payPeriod
+        -BigDecimal basicSalary
+        -BigDecimal allowances
+        -BigDecimal deductions
+        -BigDecimal grossSalary
+        -BigDecimal taxDeduction
+        -BigDecimal netSalary
+        -Date processedDate
+        +getters/setters()
+    }
+    
+    class Attendance {
+        -int attendanceId
+        -int empId
+        -Date attendanceDate
+        -String status
+        -Time checkInTime
+        -Time checkOutTime
+        -String remarks
+        +getters/setters()
+    }
+    
+    class LeaveRequest {
+        -String empId
+        -String leaveDate
+        -String reason
+        -String status
+        -String requestId
+        +getters/setters()
+    }
+}
+
+package "DAO" {
+    interface EmployeeDAO {
+        +save(Employee): boolean
+        +findById(int): Employee
+        +findAll(): List<Employee>
+        +update(Employee): boolean
+        +delete(int): boolean
+    }
+    
+    interface PayrollDAO {
+        +save(Payroll): boolean
+        +findByEmpId(int): List<Payroll>
+        +findByPeriod(String): List<Payroll>
+        +calculateSalary(int, String): Payroll
+    }
+    
+    interface AttendanceDAO {
+        +markAttendance(Attendance): boolean
+        +findByEmpId(int): List<Attendance>
+        +findByDate(Date): List<Attendance>
+        +getMonthlyReport(int, String): List<Attendance>
+    }
+    
+    interface LeaveRequestDAO {
+        +save(LeaveRequest): boolean
+        +findByEmpId(String): List<LeaveRequest>
+        +updateStatus(String, String): boolean
+    }
+}
+
+package "Service" {
+    class EmployeeService {
+        -EmployeeDAO employeeDAO
+        +createEmployee(Employee): boolean
+        +getEmployee(int): Employee
+        +getAllEmployees(): List<Employee>
+        +updateEmployee(Employee): boolean
+        +deleteEmployee(int): boolean
+    }
+    
+    class PayrollService {
+        -PayrollDAO payrollDAO
+        +processPayroll(int, String): Payroll
+        +generateSalarySlip(int, String): Payroll
+        +batchProcessPayroll(List<Integer>): void
+    }
+    
+    class AttendanceService {
+        -AttendanceDAO attendanceDAO
+        +markAttendance(int, Date, String): boolean
+        +getAttendanceReport(int, String): List<Attendance>
+    }
+    
+    class LeaveService {
+        -LeaveRequestDAO leaveDAO
+        +submitLeaveRequest(LeaveRequest): boolean
+        +approveLeave(String): boolean
+        +getLeaveHistory(String): List<LeaveRequest>
+    }
+}
+
+package "Servlet" {
+    class EmployeeServlet {
+        -EmployeeService employeeService
+        +doGet(HttpServletRequest, HttpServletResponse): void
+        +doPost(HttpServletRequest, HttpServletResponse): void
+        +doPut(HttpServletRequest, HttpServletResponse): void
+        +doDelete(HttpServletRequest, HttpServletResponse): void
+    }
+    
+    class PayrollServlet {
+        -PayrollService payrollService
+        +doGet(HttpServletRequest, HttpServletResponse): void
+        +doPost(HttpServletRequest, HttpServletResponse): void
+    }
+    
+    class AttendanceServlet {
+        -AttendanceService attendanceService
+        +doGet(HttpServletRequest, HttpServletResponse): void
+        +doPost(HttpServletRequest, HttpServletResponse): void
+    }
+    
+    class LeaveServlet {
+        -LeaveService leaveService
+        +doGet(HttpServletRequest, HttpServletResponse): void
+        +doPost(HttpServletRequest, HttpServletResponse): void
+    }
+    
+    class BatchServlet {
+        -PayrollService payrollService
+        -Queue<Integer> payrollQueue
+        +doPost(HttpServletRequest, HttpServletResponse): void
+        +processQueue(): void
+    }
+}
+
+Employee ||--o{ Payroll
+Employee ||--o{ Attendance
+Employee }o--|| Department
+EmployeeDAO <|.. EmployeeService
+PayrollDAO <|.. PayrollService
+AttendanceDAO <|.. AttendanceService
+LeaveRequestDAO <|.. LeaveService
+
+@enduml
