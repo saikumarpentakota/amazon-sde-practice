@@ -176,15 +176,6 @@ The project includes a `Jenkinsfile` for automated deployment:
 - **Connection Pooling**: Centralized database connection management
 - **Hybrid Storage**: MySQL for core data, DynamoDB for leave requests
 
-### Business Logic
-- **Service Layer**: Business rules and validation
-- **Queue Processing**: LinkedList-based batch processing
-- **Salary Calculation**: Automated allowances, deductions, and tax calculation
-
-### Security Features
-- **Input Validation**: Server-side validation for all inputs
-- **SQL Injection Prevention**: Prepared statements throughout
-- **Error Handling**: Comprehensive error handling and logging
 
 ## Deployment Notes
 
@@ -221,22 +212,3 @@ The project includes a `Jenkinsfile` for automated deployment:
 ### Logs Location
 - **Tomcat Logs**: `$TOMCAT_HOME/logs/`
 - **Application Logs**: Check console output or configure logging framework
-
-## Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/new-feature`)
-3. Commit changes (`git commit -am 'Add new feature'`)
-4. Push to branch (`git push origin feature/new-feature`)
-5. Create Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For support and questions:
-- Create an issue in the repository
-- Email: support@hrms-portal.com
-- Documentation: Check the `docs/` directory for detailed guides
