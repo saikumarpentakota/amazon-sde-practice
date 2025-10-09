@@ -107,9 +107,7 @@ src/
    ```
 
 3. **Access Application**:
-   - Main Dashboard: http://localhost:8080/hrms-portal/
-   - API Base URL: http://localhost:8080/hrms-portal/api/
-
+   - Main Dashboard:http://localhost:8081/hrms-portal/modern-dashboard.html
 ## API Endpoints
 
 ### Employee Management
