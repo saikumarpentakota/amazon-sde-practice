@@ -107,7 +107,7 @@ src/
    ```
 
 3. **Access Application**:
-   - Main Dashboard:http://localhost:8081/hrms-portal/modern-dashboard.html
+   - Main Dashboard:http://localhost:8081/hrms-portal/complete-dashboard.html
 ## API Endpoints
 
 ### Employee Management
